@@ -77,7 +77,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=yii_indicadores',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'ib$2016',
+			'password' => 'pwd',
 			'charset' => 'utf8',
 		),
 		'errorHandler'=>array(
