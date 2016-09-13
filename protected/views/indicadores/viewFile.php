@@ -53,8 +53,9 @@ $this->breadcrumbs=array(
 		$ext = substr($filename, strrpos($filename, '.') + 1);
 		$ext = preg_replace('/^.*\.([^.]+)$/D', '$1', $filename);
 
-		$exts = split("[/\\.]", $filename);
-		$n    = count($exts)-1;
+		//$exts = split("[/\\.]", $filename);
+		$exts = explode("[/\\.]", $filename);
+		$n = count($exts)-1;
 		return  strtolower($exts[$n]);
 
 	}
