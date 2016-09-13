@@ -27,11 +27,11 @@
 
 							
 				<!--<div class="form-group">
-					<?php echo $form->labelEx($model,'id_grupo',array('class'=>'col-sm-2 control-label')); ?>
+					<?php echo $form->labelEx($model,'id_empresa',array('class'=>'col-sm-2 control-label')); ?>
 					<div class="col-sm-10">
-						<?php echo $form->textField($model,'id_grupo',array('class'=>'form-control')); ?>
+						<?php echo $form->textField($model,'id_empresa',array('class'=>'form-control')); ?>
 					
-						<?php echo $form->error($model,'id_grupo',array('class'=>'label label-danger')); ?>
+						<?php echo $form->error($model,'id_empresa',array('class'=>'label label-danger')); ?>
 					</div>
 				</div> <!-- / .form-group -->
 

@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'indicadores_periodos':
  * @property integer $id
- * @property integer $id_grupo
+ * @property integer $id_empresa
  * @property string $periodo
  */
 class IndicadoresPeriodos extends CActiveRecord
@@ -36,11 +36,11 @@ class IndicadoresPeriodos extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_grupo, periodo', 'required'),
-			array('id_grupo', 'numerical', 'integerOnly'=>true),
+			array('id_empresa, periodo', 'required'),
+			array('id_empresa', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, id_grupo, periodo', 'safe', 'on'=>'search'),
+			array('id, id_empresa, periodo', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,7 +64,7 @@ class IndicadoresPeriodos extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'id_grupo' => 'Id Grupo',
+			'id_empresa' => 'Id Grupo',
 			'periodo' => 'Periodo',
 		);
 	}
@@ -81,7 +81,7 @@ class IndicadoresPeriodos extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('id_grupo',$this->id_grupo);
+		$criteria->compare('id_empresa',$this->id_empresa);
 		$criteria->compare('periodo',$this->periodo,true);
 
 		return new CActiveDataProvider($this, array(
