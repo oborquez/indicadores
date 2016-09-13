@@ -400,7 +400,7 @@ class UsuariosController extends Controller
 
 			$criteria = new CDbCriteria;
 			$criteria->select = "id, username,nombre,email";
-			$criteria->condition = "rol = 1 AND id_grupo = ".Yii::app()->user->getState("id_grupo");
+			$criteria->condition = "rol = 1 AND id_empresa = ".Yii::app()->user->getState("id_empresa");
 			$model = Usuarios::model()->findAll($criteria);
 			$ret = object2Array($model);
 
