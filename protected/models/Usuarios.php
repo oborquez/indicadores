@@ -115,8 +115,8 @@ class Usuarios extends CActiveRecord
 
 			1 => "Usuario",
 			2 => "Lider",
-			3 => "Administrador",
-			4 => "Consultor"
+			3 => "Administrador"
+			
 
 		);
 	}
