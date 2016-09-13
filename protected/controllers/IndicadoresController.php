@@ -47,7 +47,7 @@ class IndicadoresController extends Controller
 
 	public function actionLista()
 	{
-		$colaboradores = Usuarios::model()->findAll("id_grupo =".Yii::app()->user->getState("id_grupo"));
+		$colaboradores = Usuarios::model()->findAll("id_empresa =".Yii::app()->user->getState("id_empresa"));
 		$this->render("lista",array( "colaboradores" => $colaboradores ));
 	}
 
@@ -139,7 +139,7 @@ class IndicadoresController extends Controller
 		$this->render('index',array("periodos"=>$periodos));
 		/*if( Yii::app()->user->getState("rol") == 2 ){
 			// lider
-			//$periodos = IndicadoresPeriodos::model()->findAll("id_grupo =". Yii::app()->user->getState("id_grupo")." ORDER BY id DESC" );	
+			//$periodos = IndicadoresPeriodos::model()->findAll("id_empresa =". Yii::app()->user->getState("id_empresa")." ORDER BY id DESC" );	
 			$this->render('index',array("periodos"=>$periodos));
 		}else{
 			//  colaborador
@@ -172,7 +172,7 @@ class IndicadoresController extends Controller
 
 	public function actionConcentrado()
 	{
-		$periodos = IndicadoresPeriodos::model()->findAll("id_grupo =". Yii::app()->user->getState("id_grupo")." ORDER BY id DESC" );	
+		$periodos = IndicadoresPeriodos::model()->findAll("id_empresa =". Yii::app()->user->getState("id_empresa")." ORDER BY id DESC" );	
 		$this->render('concentrado',array("periodos"=>$periodos));
 	}
 
@@ -184,7 +184,7 @@ class IndicadoresController extends Controller
 
 	public function actionColaboradores()
 	{
-		$colaboradores = Usuarios::model()->findAll("id_grupo = ".Yii::app()->user->getState("id_grupo")." AND rol < 3 ORDER BY nombre ASC");
+		$colaboradores = Usuarios::model()->findAll("id_empresa = ".Yii::app()->user->getState("id_empresa")." AND rol < 3 ORDER BY nombre ASC");
 		$this->render("colaboradores",array("colaboradores"=>$colaboradores));
 	}
 
@@ -326,7 +326,7 @@ class IndicadoresController extends Controller
 
 	protected function nuevosValores($id_indicador)
 	{
-		$periodos = IndicadoresPeriodos::model()->findAll("id_grupo =".Yii::app()->user->getState("id_grupo"));
+		$periodos = IndicadoresPeriodos::model()->findAll("id_empresa =".Yii::app()->user->getState("id_empresa"));
 		foreach($periodos as $periodo){
 			$model = new IndicadoresValores;
 			$model->id_indicador = $id_indicador;
@@ -340,7 +340,7 @@ class IndicadoresController extends Controller
 	public function actionDel($id)
 	{
 		$model = Indicadores::model()->findByPk($id);
-		if($model->usuario->id_grupo == Yii::app()->user->getState("id_grupo") AND Yii::app()->user->getState("rol") > 1){
+		if($model->usuario->id_empresa == Yii::app()->user->getState("id_empresa") AND Yii::app()->user->getState("rol") > 1){
 			if($model->delete()){
 
 				// eliminar archivos, comentarios y valores

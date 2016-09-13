@@ -91,7 +91,7 @@ $this->menu=array(
                             nombre: { type: "string", validation: { required: true, validationMessage : "Por favor introduzca un nombre"} },
                             email: { type: "email", validation:{required: true, validationMessage : "Correo electrónico inválido"} },
                             Empresa: {  defaultValue: { id_empresa: 1, nombreEmpresa: "Empresa", validationMessage : "Elíje una empresa"} },
-                            Grupo: {  defaultValue: { id_grupo: 1, nombreGrupo: "Grupo", validationMessage : "Elíje un grupo"} },
+                            //Grupo: {  defaultValue: { id_grupo: 1, nombreGrupo: "Grupo", validationMessage : "Elíje un grupo"} },
                             Rol: {  defaultValue: { rol: 1, rolName: "Usuario", validationMessage : "Elíje un rol"} }
                         }
                     }
@@ -110,7 +110,7 @@ $this->menu=array(
                 { field: "nombre", title:"Nombre" },
                 { field: "email", title:"Correo" },
                 { field: "Empresa", title: "Empresa", editor: empresasDDL, template: "#=Empresa.nombreEmpresa#" },
-                { field: "Grupo", title: "Grupo", editor: gruposDDL, template: "#=Grupo.nombreGrupo#" },
+                //{ field: "Grupo", title: "Grupo", editor: gruposDDL, template: "#=Grupo.nombreGrupo#" },
                 { field: "Rol", title: "Rol", editor: rolesDDL, template: "#=Rol.rolName#" },
                 { command: [{name : "edit", text : ""},{name:"impersonar", text:"Impersonar", click:impersonar} , {name:"destroy",text:"", editable : { message : "seguro" } }], title: "&nbsp;", width: "280px" },
                 //{ field: "rol", title: "Rol", editor: rolesDDL, template: "#=rol.RolName#" },

@@ -285,7 +285,8 @@ class UsuariosController extends Controller
 		$model->setAttributes($kmodel);
 		$model->rol = $kmodel["Rol"]->rol;
 		$model->id_empresa = $kmodel["Empresa"]->id_empresa;
-		$model->id_grupo = $kmodel["Grupo"]->id_grupo;
+		//$model->id_grupo = $kmodel["Grupo"]->id_grupo;
+		$model->id_grupo = 0;
 		
 		// add md5 password  -- default password "user"
 		$pass = strtolower(f_ts());
@@ -469,7 +470,7 @@ class UsuariosController extends Controller
 				</p>
 				<p><b>Nota: </b> Te recomendamos cambiar tu contraseña una vez que accedas a nuestra aplicación, en la sección de perfil</p>";
 			$notif->fecha  = date("Y-m-d H:i");
-			$notif->asunto = "Bienvenido a la herramienta de Áreas de éxito";
+			$notif->asunto = "Bienvenido a la herramienta de Indicarores";
 			$notif->correo = $model->email;
 			$notif->save();
 			$ret =  object2Array($model);
