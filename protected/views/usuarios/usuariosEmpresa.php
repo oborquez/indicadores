@@ -136,7 +136,7 @@ $this->breadcrumbs=array(
         if(confirm("Estás a punto de tomar la identidad de "+dataItem.username)){
             $.getJSON( baseUrl+"/usuarios/impersonar/"+id,function(r){
                 if(r.status){
-                    window.location.href = baseUrl+"/areasexito";
+                    window.location.href = baseUrl;
                 }
             })
         }
