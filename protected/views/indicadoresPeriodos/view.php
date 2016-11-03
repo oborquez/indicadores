@@ -28,7 +28,7 @@ $this->breadcrumbs=array(
 			'data'=>$model,
 			'attributes'=>array(
 				'id',
-		'id_grupo',
+		'id_empresa',
 		'periodo',
 			),
 		)); ?>

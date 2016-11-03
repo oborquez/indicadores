@@ -119,6 +119,20 @@
 				
 				
 			</div>
+				<?php if (Yii::app()->user->getState("rol") == 3): ?>
+				<?
+					$id_empresa = Yii::app()->user->getState("id_empresa");
+					$empresas = Empresas::model()->findAll(array('order'=>'nombre'));
+				?>	
+					&nbsp;	
+					<select class="form-control" id="changeempresas">
+						<option value="0"> -- EMPRESA --</option>
+						<?php foreach ($empresas as &$empresa): ?>
+							<option value="<?=$empresa->id?>" <?= $id_empresa == $empresa->id? "SELECTED" : "" ?> ><?=$empresa->nombre?></option>
+						<?php endforeach ?>						
+					</select>
+				<?php endif ?>
+
 			<ul class="navigation">
 				<li>
 					<a href="<?echo Yii::app()->baseUrl?>/"><i class="menu-icon fa fa-home"></i><span class="mm-text">Home</span></a>
@@ -206,6 +220,19 @@
 <script type="text/javascript">
 	init.push(function () {
 		// Javascript code here
+
+		$("#changeempresas").change(function(){
+			var id_empresa = $(this).val();
+			$.getJSON(baseUrl+"/usuarios/json/op/chngEmp",{id_empresa:id_empresa},function(r){
+				if(r.status){
+					$.growl.notice({title:"Empresa", message: "La empresa de ha cargado de manera correcta" });
+				}else{
+					console.log("n");
+				}
+			})
+
+		})
+
 	})
 	window.PixelAdmin.start(init);
 </script>

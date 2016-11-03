@@ -2,7 +2,7 @@
 /* @var $this EmpresasController */
 
 $this->breadcrumbs=array(
-	'Empresas'=>array('/empresas'),
+	'Centros'=>array('/empresas'),
 	'Admin',
 );
 ?>
@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
     
     <div class="row">
         <!-- Page header, center on small screens -->
-        <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-building-o page-header-icon"></i>&nbsp;&nbsp;Empresas</h1>
+        <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-building-o page-header-icon"></i>&nbsp;&nbsp;Centros</h1>
 
         <div class="col-xs-12 col-sm-8">
             
@@ -59,7 +59,7 @@ $(document).ready(function () {
                         id: "id",
                         fields: {
                             id: { editable: false, nullable: true },
-                            nombre: { type: "string", validation: { required: true, validationMessage : "Por favor introduzca un nombre para la empresa"} },
+                            nombre: { type: "string", validation: { required: true, validationMessage : "Por favor introduzca un nombre para el centro"} },
                         }
                     }
                 }
@@ -71,14 +71,14 @@ $(document).ready(function () {
             pageable: true,
             height: 430,
             rezisable: true,
-            toolbar: [{name: "create", text: "Agregar nueva empresa"}],
+            toolbar: [{name: "create", text: "Agregar nuevo centro"}],
             columns: [
                 { field: "nombre", title:"Nombre" },
 	            { command: [{name : "edit", text : "Editar"}, {name:"destroy",text:"Eliminar", editable : { message : "seguro" } }], title: "&nbsp;", width: "180px" },
 	            ],
             editable: { 
             	mode:"popup",
-            	confirmation: "¿Estás seguro que quieres eliminar la empresa?",
+            	confirmation: "¿Estás seguro que quieres eliminar el centro?",
         	},
         	edit: function (e) { 
                 var editWindow = e.container.data("kendoWindow");
@@ -88,7 +88,7 @@ $(document).ready(function () {
                 $(update).html('<span class="k-icon k-update"></span>Guardar');
                 
                 if (e.model.isNew()){ 
-                    e.container.data("kendoWindow").title('Nueva empresa');
+                    e.container.data("kendoWindow").title('Nuevo centro');
                     
                 }else{
                 	e.container.data("kendoWindow").title('Actualizar');

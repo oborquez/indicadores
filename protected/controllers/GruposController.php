@@ -28,11 +28,11 @@ class GruposController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','json'),
+				'actions'=>array('create','update','json','services','index','grupo'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -126,8 +126,16 @@ class GruposController extends Controller
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));*/
-		$this->redirect("grupos/admin");
+		//$this->redirect("grupos/admin");
+
+		$model = Grupos::model()->findAll( "id_empresa = ".getIdEmpresa() );
+		//$model = Grupos::model()->findAll(  );
+		$this->render("grupos",array( "model" => $model ));		
+
 	}
+
+
+
 
 	/**
 	 * Manages all models.
@@ -189,7 +197,7 @@ class GruposController extends Controller
 	private function getGrupos4Kendo()
 	{
 		$ret = array();
-		$grupos = Grupos::model()->findAll();
+		$grupos = Grupos::model()->findAll( "id_empresa =".getIdEmpresa() );
 		if(count($grupos)>0)
 		foreach($grupos as $grupo){
 			$ret[]=array("id_grupo"=>$grupo["id"],
@@ -198,4 +206,123 @@ class GruposController extends Controller
 		return $ret;
 
 	}
+
+
+	public function actionGrupo()
+	{	
+		$id = $_GET["grupo"];
+		$model = Grupos::model()->findByPk($id);
+		$usuarios = Usuarios::model()->findAll( "id_empresa = ".getIdEmpresa()." ORDER BY nombre ASC" );
+		if( $model->id_empresa == getIdEmpresa()){
+			$this->render("grupo",array( "model" => $model, "usuarios"=>$usuarios ));
+		}
+		else{
+			$this->redirect("/site/error");
+		}
+	}
+
+
+	/**
+	* 	SERVICES *********************************
+	*/
+
+	public function actionServices()
+	{
+		$op = ( isset($_GET["op"]) )? $_GET["op"] : $_POST["op"];			
+		$ret = $this->{$op}();	
+		$ret["origin_data_get"] = $_GET;
+		$ret["origin_data_POST"] = $_POST;
+	
+		echo json_encode($ret);
+	}
+
+
+	private function saveGrupo()
+	{
+		$nombre = $_GET["nombre"];
+		$ret["strlen"] = strlen($nombre);
+		if(strlen($nombre)>0){
+
+			$model = new Grupos;
+			$model->id_empresa = getIdEmpresa();
+			$model->nombre = $nombre;
+			$ret["status"] = $model->save();
+			if(!$ret["status"]) $ret["errors"] = $model->getErrors();
+			$ret["id"] = $model->primaryKey;
+
+		}else{
+			$ret["status"] = false;
+			$ret["errors"] = "Título no permitido";
+		}
+		return $ret;		
+	}
+
+	private function delGrupo()
+	{
+		$id = intval($_GET["id"]);
+		$model = Grupos::model()->findByPk($id);
+		if($model->id_empresa == getIdEmpresa()){
+			$ret["status"] = $model->delete();
+			if(!$ret["status"]) $ret["error"] = $model->getErrors();
+		}else{
+			$ret["status"] = false;
+			$ret["error"] = "No tiene permiso para realizar la acción";
+		}
+		return $ret;		
+	}
+
+	private function saveGroupUsuarios()
+	{
+		$ret["status"] = true;
+		$id_grupo = intval( $_POST["id_grupo"] );
+		// primero eliminamos los usuario previos al grupo
+		$delusers = GruposUsuarios::model()->findAll( "id_grupo = ".$id_grupo );
+		foreach($delusers as $deluser) $deluser->delete();
+
+		//Obtener y guardar nuevos usuarios
+
+		foreach($_POST as $k=>$v){
+			if(substr($k,0,8) == "usuario_" ){
+				$id_usuario =substr($k,8);
+				$model = new GruposUsuarios;
+				$model->id_grupo = $id_grupo;
+				$model->id_usuario = $id_usuario;
+				$ret["status"] = $model->save();
+			}
+		}
+		$ret["POST"] = $_POST;
+		if(!$ret["status"])$ret["error"] = $model->getErrors();	
+		return $ret;
+	}
+
+	private function saveGroupUsuario()
+	{
+		$ret["status"] = true;
+		$id_grupo = intval( $_GET["id_grupo"] );
+		$id_usuario = intval($_GET["id"]);
+		
+		if($_GET["estado"]){ // añadimos
+			$ret["accion"] = "añadir";
+			$model = new GruposUsuarios;
+			$model->id_grupo = $id_grupo;
+			$model->id_usuario = $id_usuario;
+			$ret["status"] = $model->save();
+
+		}else{ // eliminamos
+			$ret["accion"] = "eliminar";
+			$ret["status"] = GruposUsuarios::model()->deleteAll( "id_grupo = ".$id_grupo." AND id_usuario = ".$id_usuario );
+
+		}	
+
+		if(!$ret["status"])$ret["error"] = $model->getErrors();	
+		return $ret;
+	}
+
+
+	
+
+
+
+
+
 }

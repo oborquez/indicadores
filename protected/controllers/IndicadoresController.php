@@ -32,7 +32,7 @@ class IndicadoresController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','concentrado','lista','indicador','indicadores','evidencia','comentarios','saveComment',"delComment","uploadFiles","getFiles","delFile","viewFile",'colaboradores','colaborador',"del","print"),
+				'actions'=>array('create','update','concentrado','lista','indicador','indicadores','evidencia','comentarios','saveComment',"delComment","uploadFiles","getFiles","delFile","viewFile",'colaboradores','colaborador',"del","print","grupos"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -46,8 +46,13 @@ class IndicadoresController extends Controller
 	}
 
 	public function actionLista()
-	{
-		$colaboradores = Usuarios::model()->findAll("id_grupo =".Yii::app()->user->getState("id_grupo"));
+	{	
+		if(isset($_GET["grupo"])){
+			$colaboradores = Usuarios::model()->findAll("id_grupo =".$_GET["grupo"]);
+		}else{
+			$colaboradores = Usuarios::model()->findAll("id_empresa =".getIdEmpresa());
+		}
+		
 		$this->render("lista",array( "colaboradores" => $colaboradores ));
 	}
 
@@ -171,8 +176,11 @@ class IndicadoresController extends Controller
 	}
 
 	public function actionConcentrado()
-	{
-		$periodos = IndicadoresPeriodos::model()->findAll("id_grupo =". Yii::app()->user->getState("id_grupo")." ORDER BY id DESC" );	
+	{	
+
+		$periodos = IndicadoresPeriodos::model()->findAll("id_empresa =". getIdEmpresa()." ORDER BY id DESC" );	
+		
+		
 		$this->render('concentrado',array("periodos"=>$periodos));
 	}
 
@@ -184,9 +192,22 @@ class IndicadoresController extends Controller
 
 	public function actionColaboradores()
 	{
-		$colaboradores = Usuarios::model()->findAll("id_grupo = ".Yii::app()->user->getState("id_grupo")." AND rol < 3 ORDER BY nombre ASC");
+		if(isset($_GET["grupo"])){
+			$id_grupo = $_GET["grupo"];
+			$colaboradores = Usuarios::model()->findAll("id_grupo = ".$id_grupo." AND rol < 3 ORDER BY nombre ASC");
+		}else{
+			$colaboradores = Usuarios::model()->findAll("id_empresa = ".getIdEmpresa()." AND rol < 3 ORDER BY nombre ASC");
+		}
 		$this->render("colaboradores",array("colaboradores"=>$colaboradores));
 	}
+
+
+	public function actionGrupos()
+	{
+		$grupos = Grupos::model()->findAll("id_empresa =".getIdEmpresa());
+		$this->render("grupos",array("grupos"=>$grupos));
+	}
+
 
 	public function actionColaborador($id)
 	{
@@ -326,7 +347,7 @@ class IndicadoresController extends Controller
 
 	protected function nuevosValores($id_indicador)
 	{
-		$periodos = IndicadoresPeriodos::model()->findAll("id_grupo =".Yii::app()->user->getState("id_grupo"));
+		$periodos = IndicadoresPeriodos::model()->findAll("id_empresa =".getIdEmpresa());
 		foreach($periodos as $periodo){
 			$model = new IndicadoresValores;
 			$model->id_indicador = $id_indicador;

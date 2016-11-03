@@ -1,19 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "indicadores_periodos".
+ * This is the model class for table "grupos_usuarios".
  *
- * The followings are the available columns in table 'indicadores_periodos':
+ * The followings are the available columns in table 'evaluaciones_grupos_usuarios':
  * @property integer $id
- * @property integer $id_empresa
- * @property string $periodo
+ * @property integer $id_grupo
+ * @property integer $id_usuario
  */
-class IndicadoresPeriodos extends CActiveRecord
+class GruposUsuarios extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return IndicadoresPeriodos the static model class
+	 * @return GruposUsuarios the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -25,7 +25,7 @@ class IndicadoresPeriodos extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'indicadores_periodos';
+		return 'grupos_usuarios';
 	}
 
 	/**
@@ -36,11 +36,11 @@ class IndicadoresPeriodos extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_empresa, periodo', 'required'),
-			array('id_empresa', 'numerical', 'integerOnly'=>true),
+			array('id_grupo, id_usuario', 'required'),
+			array('id_grupo, id_usuario', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, id_empresa, periodo', 'safe', 'on'=>'search'),
+			array('id, id_grupo, id_usuario', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +52,7 @@ class IndicadoresPeriodos extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			"valores" => array(self::HAS_MANY,"IndicadoresValores",'id_periodo'),
-			"valor" => array(self::HAS_ONE,"IndicadoresValores",'id_periodo'),
+			"usuario" => array(self::BELONGS_TO, "Usuarios","id_usuario" ),
 		);
 	}
 
@@ -64,8 +63,8 @@ class IndicadoresPeriodos extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'id_empresa' => 'Id Grupo',
-			'periodo' => 'Periodo',
+			'id_grupo' => 'Id Grupo',
+			'id_usuario' => 'Id Usuario',
 		);
 	}
 
@@ -81,11 +80,17 @@ class IndicadoresPeriodos extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('id_empresa',$this->id_empresa);
-		$criteria->compare('periodo',$this->periodo,true);
+		$criteria->compare('id_grupo',$this->id_grupo);
+		$criteria->compare('id_usuario',$this->id_usuario);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	public function isInGroup( $id_grupo, $id_usuario )
+	{
+		$model = GruposUsuarios::model()->find( "id_grupo = ".$id_grupo." AND id_usuario=".$id_usuario );
+		return $model;
 	}
 }

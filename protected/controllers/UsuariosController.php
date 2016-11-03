@@ -242,6 +242,7 @@ class UsuariosController extends Controller
 			case "newPassword":				$ret = $this->_newPassword(); 	break;
 			case "check_username":			$ret = $this->_check_username($_GET["username"]); break;	
 			case "passReset": 				$ret = $this->passReset(); break;
+			case "chngEmp": 				$ret = $this->chngEmp(); break;
 
 		}
 
@@ -262,6 +263,7 @@ class UsuariosController extends Controller
 		foreach($model as $k=>$v){
 			$aModel[$k]["Empresa"] = array('id_empresa'=>$v->empresa->id,'nombreEmpresa'=>$v->empresa->nombre);
 			$aModel[$k]["Grupo"] = array( "id_grupo" => $v->id_grupo, "nombreGrupo" => $v->grupo->nombre );
+			unset($aModel[$k]["password"]);
 		}
 			
 		foreach($aModel as $k=>$v)
@@ -397,16 +399,15 @@ class UsuariosController extends Controller
 		$ret = array();
 		if(Yii::app()->user->getState('rol') == 2){
 
-			$criteria = new CDbCriteria;
-			$criteria->select = "id, username,nombre,email";
-			$criteria->condition = "rol = 1 AND id_grupo = ".Yii::app()->user->getState("id_grupo");
-			$model = Usuarios::model()->findAll($criteria);
-			$ret = object2Array($model);
 
-			foreach($ret as $k=>$usuario){
-				unset($ret[$k]["id_empresa"]);
-				unset($ret[$k]["rol"]);
-				unset($ret[$k]["password"]);
+			$model = Usuarios::model()->with('empresa')->findAll("rol = 1 AND id_empresa = ".getIdEmpresa());
+			
+			$aModel =	object2Array($model); 
+			
+			foreach($model as $k=>$v){
+				$aModel[$k]["Empresa"] = array('id_empresa'=>$v->empresa->id,'nombreEmpresa'=>$v->empresa->nombre);
+				$aModel[$k]["Grupo"] = array( "id_grupo" => $v->id_grupo, "nombreGrupo" => $v->grupo->nombre );
+				unset($aModel[$k]["password"]);
 			}
 
 
@@ -416,7 +417,8 @@ class UsuariosController extends Controller
 
 		}
 
-		return $ret;
+		return $aModel;
+		//return $ret;
 
 	}
 
@@ -428,6 +430,8 @@ class UsuariosController extends Controller
 			$kmodel = Yii::app()->kendoData->_getModel();
 			$model = $this->loadModel($kmodel["id"]);
 			$model->setAttributes($kmodel);
+			$model->id_grupo = $kmodel["Grupo"]->id_grupo;
+
 			$ret = ($model->save())? object2Array($model) : FALSE;
 			
 		}else{
@@ -448,8 +452,9 @@ class UsuariosController extends Controller
 		
 		$pass = f_ts();
 		$pass = strtolower(f_ts());
-		$model->id_empresa = Yii::app()->user->getState('id_empresa');
-		$model->id_grupo = Yii::app()->user->getState('id_grupo');
+		$model->id_empresa = getIdEmpresa();
+		$model->id_grupo = $kmodel["Grupo"]->id_grupo;
+
 		$model->rol = 1;
 		$model->password = md5($pass);
 		$model->image = "/assets/PixelAdmin/images/pixel-admin/avatar.png";
@@ -463,13 +468,13 @@ class UsuariosController extends Controller
 				<h2> Datos de acceso: </h2>
 				<p> 
 					Puedes acceder a la siguiente dirección, introduciendo los datos que se presentan a continuación 
-					<br /> URL: <a href='http://areasexito.perfi.la'>http://areasexito.perfi.la</a>
+					<br /> URL: <a href='http://indicadores.perfi.la'>http://indicadores.perfi.la</a>
 					<br /> USERNAME: ".$model->username."
 					<br /> PASSWORD: ".$pass."
 				</p>
 				<p><b>Nota: </b> Te recomendamos cambiar tu contraseña una vez que accedas a nuestra aplicación, en la sección de perfil</p>";
 			$notif->fecha  = date("Y-m-d H:i");
-			$notif->asunto = "Bienvenido a la herramienta de Áreas de éxito";
+			$notif->asunto = "Bienvenido a la herramienta de Indicadores";
 			$notif->correo = $model->email;
 			$notif->save();
 			$ret =  object2Array($model);
@@ -508,6 +513,18 @@ class UsuariosController extends Controller
 			$notif->correo = $model->email;
 			$notif->save();			
 		}
+		return $ret;
+	}
+
+	private function chngEmp()
+	{
+		if(Yii::app()->user->getState("rol") == 3){
+			Yii::app()->user->setState("id_empresa",  $_GET["id_empresa"]);
+			$ret["status"] = true;
+		}else{
+			$ret["status"] = false;
+		}
+		$ret["get"] = $_GET;
 		return $ret;
 	}
 

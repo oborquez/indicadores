@@ -7,11 +7,11 @@
 
 		// menu values
 		//$aMenu["Introducción"] 	= array("roles"=>array("*"),"link"=>"biblioteca/view/42","icon"=>"youtube-play");
-		$aMenu["Grupos"] 	= array("roles"=>array("3"),"link"=>"grupos","icon"=>"group");
+		$aMenu["Grupos"] 	= array("roles"=>array("2","3"),"link"=>"grupos","icon"=>"group");
 		$aMenu["Usuarios"] 	= array("roles"=>array("2","3"),"link"=>"usuarios","icon"=>"group");
 		//$aMenu["Áreas de éxito"] 	= array("roles"=>array("2","3"),"link"=>"areasexito","icon"=>"check");
 		$aMenu["Indicadores"] 	= array("roles"=>array("2","3"),"link"=>"indicadores","icon"=>"check");
-		$aMenu["Empresas"] 	= array("roles"=>array("3"),"link"=>"empresas","icon"=>"building-o");
+		$aMenu["Centros"] 	= array("roles"=>array("3"),"link"=>"empresas","icon"=>"building-o");
 		
 
 

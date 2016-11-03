@@ -9,8 +9,8 @@
 	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id_grupo')); ?>:</b>
-	<?php echo CHtml::encode($data->id_grupo); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('id_empresa')); ?>:</b>
+	<?php echo CHtml::encode($data->id_empresa); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('periodo')); ?>:</b>

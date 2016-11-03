@@ -83,7 +83,8 @@ $this->breadcrumbs=array(
 
                             },
                             nombre: { type: "string", validation: { required: true, validationMessage : "Por favor introduzca un nombre"} },
-                            email: { type: "email", validation:{required: true, validationMessage : "Correo electrónico inválido"} }
+                            email: { type: "email", validation:{required: true, validationMessage : "Correo electrónico inválido"} },
+                            Grupo: {  defaultValue: { id_grupo: 1, nombreGrupo: "Grupo", validationMessage : "Elíje un grupo"} }
                         }
                     }
                 }
@@ -100,6 +101,7 @@ $this->breadcrumbs=array(
                 { field:"username", title: "Username" },
             	{ field: "nombre", title:"Nombre" },
 	            { field: "email", title:"Correo" },
+                { field: "Grupo", title: "Grupo", editor: gruposDDL, template: "#=Grupo.nombreGrupo#" },
 	            //{ command: [{name : "edit", text : ""}, {name:"destroy",text:"", editable : { message : "seguro" } }], title: "&nbsp;", width: "180px" },
 	            { command: [{name : "edit", text : ""},{name:"impersonar", text:"Impersonar", click:impersonar} , {name:"destroy",text:"", editable : { message : "seguro" } }], title: "&nbsp;", width: "280px" },
 
@@ -140,7 +142,26 @@ $this->breadcrumbs=array(
                 }
             })
         }
-    }    
+    } 
+
+    function gruposDDL(container, options) { 
+            
+        $('<input required data-text-field="nombreGrupo" data-value-field="id_grupo" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: false,
+                dataSource: {
+                    transport: {
+                        read:{
+                            url: baseUrl + "/grupos/json?op=getGrupos4Kendo",
+                            dataType: "json"
+                        }
+                    }
+                }
+
+            });
+        }
+       
 
 
 </script>

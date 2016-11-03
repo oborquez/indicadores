@@ -23,6 +23,9 @@ $this->breadcrumbs=array(
 
 <div class="panel">
     <div class="panel-body">
+
+        <!--<a href="<?=Yii::app()->baseUrl?>/indicadores/concentrado/grupo/<?=$_GET["grupo"]?>" class="btn btn-labeled btn-primary pull-right"><span class="btn-label icon fa fa-file"></span>Concentrado del grupo</a>-->
+
         
         <table class="table">
             <thead>

@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'grupos':
  * @property integer $id
+ * @property integer $id_empresa
  * @property string $nombre
  */
 class Grupos extends CActiveRecord
@@ -38,7 +39,7 @@ class Grupos extends CActiveRecord
 			array('nombre', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, nombre', 'safe', 'on'=>'search'),
+			array('id,id_empresa, nombre', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +63,7 @@ class Grupos extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'nombre' => 'Nombre',
+			'id_empresa' => 'Empresa',
 		);
 	}
 
@@ -77,6 +79,7 @@ class Grupos extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('id_empresa',$this->id_empresa);
 		$criteria->compare('nombre',$this->nombre,true);
 
 		return new CActiveDataProvider($this, array(

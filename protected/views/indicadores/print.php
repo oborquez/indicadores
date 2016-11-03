@@ -31,7 +31,7 @@
                                         Morris.Area({
                                             element: 'hero-area',
                                             data: [
-                                            <?$periodos = IndicadoresPeriodos::model()->findAll("id_grupo =".Yii::app()->user->getState("id_grupo")." ORDER BY id ASC")?>
+                                            <?$periodos = IndicadoresPeriodos::model()->findAll("id_empresa =".getIdEmpresa()." ORDER BY id ASC")?>
                                             <?$ykeys="";?>
                                             <?$yk = true;?>
                                             <? $total = count($periodos); $c = 0;?>

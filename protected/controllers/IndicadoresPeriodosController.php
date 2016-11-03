@@ -70,7 +70,7 @@ class IndicadoresPeriodosController extends Controller
 		if(isset($_POST['IndicadoresPeriodos']))
 		{
 			$model->attributes=$_POST['IndicadoresPeriodos'];
-			$model->id_grupo = Yii::app()->user->getState("id_grupo");
+			$model->id_empresa = Yii::app()->user->getState("id_empresa");
 			if($model->save()){
 				Yii::app()->user->setFlash("success","Periodo creado de manera correcta");
 				// crear nuevos valores si no los hay
@@ -131,7 +131,7 @@ class IndicadoresPeriodosController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = IndicadoresPeriodos::model()->findAll("id_grupo = ".Yii::app()->user->getState("id_grupo"));
+		$model = IndicadoresPeriodos::model()->findAll("id_empresa = ".getIdEmpresa());
 		$this->render("index",array("model"=>$model));
 	}
 
@@ -194,7 +194,7 @@ class IndicadoresPeriodosController extends Controller
 
 	protected function nuevosValores($id_periodo)
 	{
-		$usuarios = Usuarios::model()->findAll('id_grupo ='.Yii::app()->user->getState("id_grupo"));
+		$usuarios = Usuarios::model()->findAll('id_empresa ='.getIdEmpresa());
 		
 		foreach($usuarios as $usuario){
 			foreach($usuario->indicadores as $indicador){

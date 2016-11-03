@@ -17,8 +17,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'id_grupo'); ?>
-		<?php echo $form->textField($model,'id_grupo',array('class'=>'')); ?>
+		<?php echo $form->label($model,'id_empresa'); ?>
+		<?php echo $form->textField($model,'id_empresa',array('class'=>'')); ?>
 	</div>
 
 	<div class="row">
