@@ -40,6 +40,7 @@ $this->breadcrumbs=array(
 						<th colspan="2">Colaborador</th>
 						<th>Indicador</th>
 						<th class="text-center">Semáforo</th>
+						<th class="text-center">Eficiencia</th>
 						<th class="text-center">Avalado</th>
 						<th class="text-center">Comentarios</th>
 						<th class="text-center">Archivos</th>
@@ -53,6 +54,7 @@ $this->breadcrumbs=array(
 							<td class="text-center"><img src="<?= Yii::app()->baseUrl.$valor->indicador->usuario->image?>" style="border-radius:50%; width:30px;"></td>
 							<td><?= $valor->indicador->usuario->nombre?></td>
 							<td class="text-center"><?= $valor->indicador->nombre?></td>
+							<td class="text-center"><a class="label label-<?= Indicadores::model()->getUmbral($valor->valor)?>"><?= $valor->valor?> <?=$valor->indicador->unidad?></a></td>
 							<td class="text-center"><a class="label label-<?= Indicadores::model()->getUmbral($valor->valor)?>"><?= $valor->valor?> <?=$valor->indicador->unidad?></a></td>
 							<td class="text-center"><a href="#" class="label label-<?=($valor->avalado)? "success" : "default" ?>"><i class="fa fa-<?=($valor->avalado)? "check" : "times" ?>"></i></a></td>
 							<td class="text-center"><?= count($valor->comentarios)?></td>
