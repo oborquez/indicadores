@@ -12,7 +12,7 @@ $this->breadcrumbs=array(
 
 
 <div class="page-header">
-    
+
     <div class="row">
         <!-- Page header, center on small screens -->
         <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-check page-header-icon"></i>&nbsp;&nbsp; <?=$model->nombre?></h1>
@@ -53,11 +53,11 @@ $this->breadcrumbs=array(
                         <th>Unidad de medida</th>
                         <td><?= $model->unidad?></td>
                     </tr>
-                </table>                    
+                </table>
             </div>
-            
+
             <div class="col-xs-12 col-sm-6">
-            
+
 
 
                 <!-- 6. $MORRISJS_AREA =============================================================================
@@ -70,7 +70,7 @@ $this->breadcrumbs=array(
                                         Morris.Area({
                                             element: 'hero-area',
                                             data: [
-                                            <?$periodos = IndicadoresPeriodos::model()->findAll("id_grupo =".Yii::app()->user->getState("id_grupo")." ORDER BY id ASC")?>
+                                            <?$periodos = IndicadoresPeriodos::model()->findAll("id_empresa =".getIdEmpresa()." ORDER BY id ASC")?>
                                             <? $total = count($periodos); $c = 0;?>
                                             <? foreach($periodos as $periodo): ?>
                                             <? $valor = IndicadoresValores::model()->find("id_indicador = ".$model->id." AND id_periodo = ".$periodo->id)?>
@@ -95,11 +95,11 @@ $this->breadcrumbs=array(
                                 </script>
                                 <!-- / Javascript -->
 
-                                
+
                                         <div class="graph-container">
                                             <div id="hero-area" class="graph"></div>
                                         </div>
-                                    
+
                 <!-- /6. $MORRISJS_AREA -->
 
 
@@ -143,16 +143,16 @@ $this->breadcrumbs=array(
                                     <a href="<?= Yii::app()->baseUrl?>/indicadores/evidencia/<?=$valor->id?>" class="btn btn-info"><i class="fa fa-comment"></i> <i class="fa fa-file"></i> </a>
                                     <a href="<?= Yii::app()->baseUrl?>/indicadoresValores/update/<?=$valor->id?>" class="btn btn-warning"><i class="fa fa-edit"></i></a>
                                 </td>
-                            </tr>   
+                            </tr>
                             <? endforeach ?>
                         </tbody>
                     </table>
                 </div>
-                
 
-            </div>  
 
-            
+            </div>
+
+
         </div>
     </div>
 </div>
