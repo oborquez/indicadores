@@ -129,7 +129,7 @@ $this->breadcrumbs=array(
                             </tr>
                         </thead>
                         <tbody>
-                           <?$periodos = IndicadoresPeriodos::model()->findAll("id_grupo =".Yii::app()->user->getState("id_grupo")." ORDER BY id ASC")?>
+                           <?$periodos = IndicadoresPeriodos::model()->findAll("id_empresa =".getIdEmpresa()." ORDER BY id ASC")?>
                             <? foreach($periodos as $periodo): ?>
                             <? $valor = IndicadoresValores::model()->find("id_indicador = ".$model->id." AND id_periodo = ".$periodo->id)?>
                             <tr>
