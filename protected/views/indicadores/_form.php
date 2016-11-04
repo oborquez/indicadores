@@ -29,7 +29,7 @@
 				<div class="form-group">
 					<?php echo $form->labelEx($model,'id_usuario',array('class'=>'col-sm-2 control-label')); ?>
 					<div class="col-sm-10">
-						<?php echo $form->dropDownList($model,'id_usuario',CHtml::listData(Usuarios::model()->findAll( "id_empresa =".getIdEmpresa(),"id","nombre"),array('style'=>'width:200px','class'=>'form-control')); ?>
+						<?php echo $form->dropDownList($model,'id_usuario',CHtml::listData(Usuarios::model()->findAll( "id_empresa =".getIdEmpresa() ),"id","nombre"),array('style'=>'width:200px','class'=>'form-control')); ?>
 
 						<?php echo $form->error($model,'id_usuario',array('class'=>'label label-danger')); ?>
 					</div>
