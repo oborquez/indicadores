@@ -11,23 +11,23 @@ $this->breadcrumbs=array(
 ?>
 
 <div class="page-header">
-    
+
     <div class="row">
         <!-- Page header, center on small screens -->
         <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-group page-header-icon"></i>&nbsp;&nbsp;Usuarios</h1>
         <div class="col-xs-12 col-sm-2 pull-right">
 
-           
+
         </div>
     </div>
 </div> <!-- / .page-header -->
 
- 
+
 <div id="gUsuarios"></div>
 
 <script type="text/javascript">
 
-	
+
 
 
 	$(document).ready(function () {
@@ -65,20 +65,20 @@ $this->breadcrumbs=array(
                         id: "id",
                         fields: {
                             id: { editable: false, nullable: true },
-                            username: { 
-                            	type: "string", 
+                            username: {
+                            	type: "string",
                             	validation: {
 						       		//required: { message: "Instroduzca un username" },
 						       		custom: function(input){
 										input.attr("data-custom-msg","El username ya se encuentra en uso");
 						       			var vurl = baseUrl + "/usuarios/json?op=check_username&username="+input.val();
-						       			var ret = $.ajax({ 
-									      url: vurl, 
+						       			var ret = $.ajax({
+									      url: vurl,
 									      async: false
 									  	 }).responseText;
 									   	ret = $.parseJSON(ret);
 						       			return ret.check;
-						       		} 
+						       		}
 							    }
 
                             },
@@ -89,8 +89,8 @@ $this->breadcrumbs=array(
                     }
                 }
             });
-			
-		
+
+
         $("#gUsuarios").kendoGrid({
             dataSource: dataSource,
             pageable: true,
@@ -106,30 +106,30 @@ $this->breadcrumbs=array(
 	            { command: [{name : "edit", text : ""},{name:"impersonar", text:"Impersonar", click:impersonar} , {name:"destroy",text:"", editable : { message : "seguro" } }], title: "&nbsp;", width: "280px" },
 
 	            ],
-            editable: { 
+            editable: {
             	mode:"popup",
             	confirmation: "¿Estás seguro que quieres eliminar el usuario?",
         	},
-        	edit: function (e) { 
+        	edit: function (e) {
                 var editWindow = e.container.data("kendoWindow");
-                var update = $(e.container).parent().find(".k-grid-update");  
-				var cancel = $(e.container).parent().find(".k-grid-cancel"); 
+                var update = $(e.container).parent().find(".k-grid-update");
+				var cancel = $(e.container).parent().find(".k-grid-cancel");
                 $(cancel).html('<span class="k-icon k-cancel"></span>Cancelar');
                 $(update).html('<span class="k-icon k-update"></span>Guardar');
-                
-                if (e.model.isNew()){ 
+
+                if (e.model.isNew()){
                     e.container.data("kendoWindow").title('Nuevo usuario');
-                    
+
                 }else{
                 	e.container.data("kendoWindow").title('Actualizar');
                 	$("div[data-container-for='username']").css({"padding":"8px"}).html("<b>"+e.model.username+"</b>");
             	}
        	    }
 
-            
+
         });
     });
-	
+
 	function impersonar(e) {
 
         e.preventDefault();
@@ -138,14 +138,14 @@ $this->breadcrumbs=array(
         if(confirm("Estás a punto de tomar la identidad de "+dataItem.username)){
             $.getJSON( baseUrl+"/usuarios/impersonar/"+id,function(r){
                 if(r.status){
-                    window.location.href = baseUrl+"/areasexito";
+                    window.location.href = baseUrl;
                 }
             })
         }
-    } 
+    }
 
-    function gruposDDL(container, options) { 
-            
+    function gruposDDL(container, options) {
+
         $('<input required data-text-field="nombreGrupo" data-value-field="id_grupo" data-bind="value:' + options.field + '"/>')
             .appendTo(container)
             .kendoDropDownList({
@@ -161,10 +161,7 @@ $this->breadcrumbs=array(
 
             });
         }
-       
+
 
 
 </script>
-
-
-
